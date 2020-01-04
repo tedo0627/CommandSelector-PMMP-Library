@@ -18,4 +18,8 @@ class SenderVariable implements IVariable {
         }
         return [];
     }
+    
+    public function selectEntities(CommandSender $sender, array $entities, array $arguments) : array {
+        return $entities;
+    }
 }

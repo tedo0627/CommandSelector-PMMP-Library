@@ -57,5 +57,5 @@ abstract class BaseArgument implements IArgument {
         return false;
     }
 
-    public abstract function selectgetEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array;
+    public abstract function selectEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array;
 }

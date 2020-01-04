@@ -12,11 +12,11 @@ class EntityTypeArgument extends BaseArgument {
         return "type";
     }
 
-    public function selectgetEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
+    public function selectEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
         $array = [];
         $value = $this->getValue($argument);
         $exclud = $this->isExcluded($argument);
-        if (!ctype_digit($value)) {
+        if (!is_numeric($value)) {
             return [];
         }
         $type = intval($value);

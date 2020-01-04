@@ -25,25 +25,24 @@ class NearestPlayerVariable implements IVariable {
             return [];
         }
 
-        uasort($players, function($a, $b) {
+        $players = array_values($players);
+        uasort($players, function($a, $b) use ($sender) {
             return $sender->distanceSquared($a) - $sender->distanceSquared($b);
         });
 
-        $limit = 1;
+        return $players;
+    }
+    
+    public function selectEntities(CommandSender $sender, array $entities, array $arguments) : array {
         foreach ($arguments as $argument) {
             if ($argument instanceof LimitArgument) {
-                $limit = $argument->getValue($argument);
+                return $entities;
             }
         }
 
-        $target = [];
-        foreach ($players as $player) {
-            $target[] = $player;
-            if (count($target) >= $limit) {
-                break;
-            }
+        if (count($entities) > 0) {
+            return [$entities[0]];
         }
-
-        return $target;
+        return $entities;
     }
 }

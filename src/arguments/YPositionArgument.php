@@ -6,38 +6,38 @@ use pocketmine\Player;
 
 use pocketmine\command\CommandSender;
 
-class XPositionArgument extends BaseArgument {
+class YPositionArgument extends BaseArgument {
     
     public function getArgument() : string {
-        return "x";
+        return "y";
     }
 
-    public function selectgetEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
+    public function selectEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
         $array = [];
         $value = $this->getValue($argument);
         $pos = floatval($value);
 
-        $dx = null;
+        $dy = null;
         foreach ($arguments as $arg) {
-            if ($arg->getArgument() == "dx") {
-                $dx = floatval($arg->getValue($argument));
+            if ($arg->getArgument() == "dy") {
+                $dy = floatval($arg->getValue($argument));
             }
         }
 
         foreach ($entities as $entity) {
-            $x = $entity->getX();
+            $y = $entity->getY();
 
-            if ($dx != null) {
-                if ($dx >= 0 && $pos <= $x && $x <= $pos + $dx) {
+            if ($dy != null) {
+                if ($dy >= 0 && $pos <= $y && $y <= $pos + $dy) {
                     $array[] = $entity;
                 }
-                if ($dx < 0 && $pos + $dx <= $x && $x <= $pos) {
+                if ($dy < 0 && $pos + $dy <= $y && $y <= $pos) {
                     $array[] = $entity;
                 }
                 continue;
             }
 
-            if ($x == $pos) {
+            if ($y == $pos) {
                 $array[] = $entity;
             }
         }

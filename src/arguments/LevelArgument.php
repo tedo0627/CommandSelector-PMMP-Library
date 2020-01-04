@@ -12,10 +12,10 @@ class LevelArgument extends BaseArgument {
         return "l";
     }
 
-    public function selectgetEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
+    public function selectEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
         $array = [];
         $value = $this->getValue($argument);
-        if (ctype_digit($value)) {
+        if (is_numeric($value)) {
             $level = intval($value);
             foreach ($entities as $entity) {
                 if (!($entity instanceof Player)) {

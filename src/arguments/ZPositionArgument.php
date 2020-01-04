@@ -12,7 +12,7 @@ class ZPositionArgument extends BaseArgument {
         return "z";
     }
 
-    public function selectgetEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
+    public function selectEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
         $array = [];
         $value = $this->getValue($argument);
         $pos = floatval($value);

@@ -10,7 +10,7 @@ class XRelativePositionArgument extends BaseArgument {
         return "dx";
     }
 
-    public function selectgetEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
+    public function selectEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
         return $entities;
     }
 }

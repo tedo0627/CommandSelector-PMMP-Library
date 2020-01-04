@@ -10,7 +10,7 @@ class WorldArgument extends BaseArgument {
         return "w";
     }
 
-    public function selectgetEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
+    public function selectEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
         $array = [];
         $world = $this->getValue($argument);
         $exclud = $this->isExcluded($argument);

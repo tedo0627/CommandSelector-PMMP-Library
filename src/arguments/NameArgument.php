@@ -3,34 +3,32 @@
 namespace selector\arguments;
 
 use pocketmine\Player;
-use pocketmine\Server;
 
 use pocketmine\command\CommandSender;
 
-class GamemodeArgument extends BaseArgument {
+class NameArgument extends BaseArgument {
     
     public function getArgument() : string {
-        return "m";
+        return "name";
     }
 
-    public function selectgetEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
+    public function selectEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
         $array = [];
-        $type = $this->getValue($argument);
+        $name = $this->getValue($argument);
         $exclud = $this->isExcluded($argument);
-        $gamemode = Server::getGamemodeFromString($type);
 
         foreach ($entities as $entity) {
             if (!($entity instanceof Player)) {
                 continue;
             }
 
-            $gm = $entity->getGamemode();
-            if ($gm == $gamemode && !$exclud) {
+            $n = $entity->getName();
+            if ($n == $name && !$exclud) {
                 $array[] = $entity;
                 continue;
             }
 
-            if ($gm != $gamemode && $exclud) {
+            if ($n != $name && $exclud) {
                 $array[] = $entity;
             }
         }

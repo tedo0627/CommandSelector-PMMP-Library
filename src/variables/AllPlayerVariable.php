@@ -13,6 +13,12 @@ class AllPlayerVariable implements IVariable {
     }
 
     public function getEntities(CommandSender $sender, string $args, array $arguments) : array {
-        return Server::getInstance()->getOnlinePlayers();
+        $players = Server::getInstance()->getOnlinePlayers();
+        $players = array_values($players);
+        return $players;
+    }
+    
+    public function selectEntities(CommandSender $sender, array $entities, array $arguments) : array {
+        return $entities;
     }
 }

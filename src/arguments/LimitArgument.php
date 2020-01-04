@@ -2,7 +2,11 @@
 
 namespace selector\arguments;
 
+use pocketmine\Player;
+
 use pocketmine\command\CommandSender;
+
+use selector\variables\NearestPlayerVariable;
 
 class LimitArgument extends BaseArgument {
     
@@ -10,25 +14,31 @@ class LimitArgument extends BaseArgument {
         return "c";
     }
 
-    public function selectgetEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
-        $array = [];
+    public function selectEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
         $value = $this->getValue($argument);
-        if (!ctype_digit($value)) {
+        if (!is_numeric($value)) {
             return [];
         }
         $limit = intval($value);
+
+        if ($sender instanceof Player) {
+            uasort($entities, function($a, $b) use ($sender) {
+                return $sender->distanceSquared($a) - $sender->distanceSquared($b);
+            });
+        }
 
         if ($limit < 0) {
             $limit *= -1;
             $entities = array_reverse($entities);
         }
 
+        $array = [];
         foreach ($entities as $entity) {
-            $array[] = $entity;
-
             if (count($array) >= $limit) {
                 break;
             }
+
+            $array[] = $entity;
         }
         
         return $array;

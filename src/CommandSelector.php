@@ -2,6 +2,8 @@
 
 namespace selector;
 
+use pocketmine\Server;
+
 use pocketmine\command\CommandSender;
 
 
@@ -112,7 +114,7 @@ class CommandSelector {
         $variable = $this->variables[$key];
 
         $arguments = [];
-        if (strlen($args) > 6) { //@p[r=1] > 6
+        if (substr($args, 0, 1) == "@" && strlen($args) > 6) { //@p[r=1] > 6
             $str = substr($args, 2, strlen($args) - 2);
             if ($str[0] == "[" && $str[strlen($str) - 1] = "]") {
                 $str = substr($str, 1, -1);
@@ -136,13 +138,25 @@ class CommandSelector {
                     $arguments[] = $this->arguments[$key];
                 }
             }
+        } else {
+            $entities = [Server::getInstance()->getPlayer($args)];
         }
 
-        $players = $variable->getEntities($sender, $args, $arguments);
+        $entities = $variable->getEntities($sender, $args, $arguments);
+        $limit = null;
         foreach ($arguments as $arg) {
-            $players = $arg->selectgetEntities($sender, $args, $arguments, $players);
+            if ($arg instanceof LimitArgument) {
+                $limit = $arg;
+                continue;
+            }
+            $entities = $arg->selectEntities($sender, $args, $arguments, $entities);
         }
 
-        return $players;
+        if ($limit != null) {
+            $entities = $limit->selectEntities($sender, $args, $arguments, $entities);
+        }
+        $entities = $variable->selectEntities($sender, $entities, $arguments);
+
+        return $entities;
     }
 }

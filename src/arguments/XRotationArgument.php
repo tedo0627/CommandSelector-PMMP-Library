@@ -12,10 +12,10 @@ class XRotationArgument extends BaseArgument {
         return "rx";
     }
 
-    public function selectgetEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
+    public function selectEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
         $array = [];
         $value = $this->getValue($argument);
-        if (ctype_digit($value)) {
+        if (is_numeric($value)) {
             $x = floatval($value);
             foreach ($entities as $entity) {
                 if ($entity->getPitch() == $x) {

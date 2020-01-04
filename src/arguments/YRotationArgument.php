@@ -2,27 +2,23 @@
 
 namespace selector\arguments;
 
+use pocketmine\Player;
+
 use pocketmine\command\CommandSender;
 
-use pocketmine\level\Position;
-
-class DistanceArgument extends BaseArgument {
+class YRotationArgument extends BaseArgument {
     
     public function getArgument() : string {
-        return "r";
+        return "ry";
     }
 
-    public function selectgetEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
-        if (!($sender instanceof Position)) {
-            return [];
-        }
-
+    public function selectEntities(CommandSender $sender, string $argument, array $arguments, array $entities) : array {
         $array = [];
         $value = $this->getValue($argument);
-        if (ctype_digit($value)) {
-            $rage = floatval($value);
+        if (is_numeric($value)) {
+            $y = floatval($value);
             foreach ($entities as $entity) {
-                if ($entity->distance($sender) == $rage) {
+                if ($entity->getYaw() == $y) {
                     $array[] = $entity;
                 }
             }
@@ -33,11 +29,11 @@ class DistanceArgument extends BaseArgument {
         if (count($split) < 2) {
             return [];
         }
-        
+
         if ($split[0] == "") {
-            $rage = floatval($split[1]);
+            $y = floatval($split[1]);
             foreach ($entities as $entity) {
-                if ($entity->distance($sender) <= $rage) {
+                if ($entity->getYaw() <= $y) {
                     $array[] = $entity;
                 }
             }
@@ -45,9 +41,9 @@ class DistanceArgument extends BaseArgument {
         }
 
         if ($split[1] == "") {
-            $rage = floatval($split[0]);
+            $y = floatval($split[0]);
             foreach ($entities as $entity) {
-                if ($entity->distance($sender) >= $rage) {
+                if ($entity->getYaw() >= $y) {
                     $array[] = $entity;
                 }
             }
@@ -58,8 +54,8 @@ class DistanceArgument extends BaseArgument {
         $max = floatval($split[1]);
 
         foreach ($entities as $entity) {
-            $distance = $entity->distance($sender);
-            if ($min <= $distance && $distance <= $max) {
+            $yaw = $entity->getYaw();
+            if ($min <= $yaw && $yaw <= $max) {
                 $array[] = $entity;
             }
         }

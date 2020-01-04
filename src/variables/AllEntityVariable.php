@@ -17,6 +17,11 @@ class AllEntityVariable implements IVariable {
         foreach (Server::getInstance()->getLevels() as $level) {
             $array = array_merge($array, $level->getEntities());
         }
+        $array = array_values($array);
         return $array;
+    }
+    
+    public function selectEntities(CommandSender $sender, array $entities, array $arguments) : array {
+        return $entities;
     }
 }
